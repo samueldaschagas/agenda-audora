@@ -1,0 +1,537 @@
+ <!DOCTYPE html>
+  <html>
+    <head>
+      <title>Agenda Audora</title>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!-- Compiled and minified CSS -->
+      <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    </head>
+
+    <body ng-app="agendaAudora" slim-scroll>
+    
+      <div class="navbar-fixed">
+          <nav class="navbar-principal">
+            <div class="nav-wrapper">
+              <ul class="left hide-on-med-and-down">
+                <li class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Hoje">
+                  <a href="#">
+                    <i class="material-icons navbar-principal__icone">refresh</i>
+                  </a>
+                </li>
+                <li class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Buscar">
+                  <a href="#">
+                    <i class="material-icons navbar-principal__icone">search</i>
+                  </a>
+                </li>
+                <li class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Imprimir">
+                  <a href="#">
+                    <i class="large material-icons navbar-principal__icone">print</i>
+                  </a>
+                </li>
+                <li class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Calendário">
+                  <a href="#">
+                    <i class="material-icons navbar-principal__icone">date_range</i>
+                  </a>
+                </li>
+                <li class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Novo">
+                  <a href="#">
+                    <i class="large material-icons navbar-principal__icone">add</i>
+                  </a>
+                </li>
+              </ul>
+
+              <ul class="right hide-on-med-and-down">
+                <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Maceió<i class="material-icons right">arrow_drop_down</i></a></li>
+                <li><a class="dropdown-button" href="#!" data-activates="dropdown2">Tudo<i class="material-icons right">arrow_drop_down</i></a></li>
+
+                <!-- Dropdown Structure -->
+                <ul id='dropdown1' class='dropdown-content'>
+                  <li><a class="grey-text text-darken-1" href="#!">Maceió</a></li>
+                  <li><a class="grey-text text-darken-1" href="#!">Aracaju</a></li>
+                  <li><a class="grey-text text-darken-1" href="#!">Itabaiana</a></li>
+                  <li><a class="grey-text text-darken-1" href="#!">Estância</a></li>
+                  <li><a class="grey-text text-darken-1" href="#!">Propriá</a></li>
+                </ul>
+
+                <!-- Dropdown Structure -->
+                <ul id='dropdown2' class='dropdown-content dropdown-content-categories'>
+                  <li><a class="grey-text text-darken-1" href="#!">Meu Departamento</a></li>
+                  <li><a class="grey-text text-darken-1" href="#!">Meus Agendamentos</a></li>
+                  <li><a class="grey-text text-darken-1" href="#!">Como Responsável</a></li>
+                  <li><a class="grey-text text-darken-1" href="#!">Departamento</a></li>
+                  <li><a class="grey-text text-darken-1" href="#!">Colaborador</a></li>
+                  <li class="divider"></li>
+                  <li><a class="grey-text text-darken-1" href="#!">Atrasados</a></li>
+                </ul>
+              </ul>
+            </div>
+          </nav>
+      </div>
+      
+      <ul class="lista-atividades" ng-controller="ControllerPrincipal">
+          <li class="lista-atividades__dia">
+              <div class="center lista-atividades__cabecalho">
+                  <div class="lista-atividades__dia-semana">
+                    <span>{{objeto[0].diaDaSemana}}</span> 
+                    <a href="" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Novo">
+                      <i class="material-icons lista-atividades__icone-add">add</i>
+                    </a>
+                  </div>
+                  <div class="lista-atividades__data-agendamento">{{objeto[0].dataAgendamento}}</div>
+              </div>
+              <ul class="collapsible lista-atividades__lista-dia" data-collapsible="accordion">
+                  <li ng-repeat="obj in objeto[0].listas">
+                    <div class="collapsible-header">
+                        <div class="row valign-wrapper lista-atividades__linha-dia">
+                          <div class="col s1">
+                            <span class="lista-atividades__hora">{{obj.hora}}</span></div>
+                          <div class="col s1">
+                            <span ng-if="!obj.finalizada" class="white-text lista-atividades__badge"
+                            ng-class="{'black': objeto[0].diasRestantes == 'Hoje'}">{{objeto[0].diasRestantes | uppercase}}</span>
+                            <span ng-if="obj.finalizada"><i class="material-icons green-text lista-atividades__icone-finalizada">check</i></span>
+                          </div>
+                          <div class="col s6">
+                            <div class="lista-atividades__local">{{obj.local}}</div>                
+                            <div class="lista-atividades__descricao">{{obj.descricao}}</div>
+                          </div>
+                          <div class="col s3">
+                            <img class="lista-atividades__imagem-responsavel circle" ng-src="{{obj.responsavel.imagem}}" alt="">
+                            <span class="lista-atividades__nome-responsavel">{{obj.responsavel.nome}}</span>
+                          </div>
+                          <div class="col s1">
+                              <ul class="lista-atividades__lista-acoes">
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao" ng-click="$event.stopPropagation();">folder_open</i></li>
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao"
+                                  ng-class="{'lista-atividades__acao-desabilitada': obj.finalizada}" ng-click="$event.stopPropagation();">check</i></li>
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao" ng-click="$event.stopPropagation();"
+                                  ng-class="{'lista-atividades__acao-desabilitada': obj.desabilitaEditar}">edit</i></li>
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao" ng-click="$event.stopPropagation();"
+                                  ng-class="{'lista-atividades__acao-desabilitada': obj.desabilitaExcluir}">cancel</i></li>
+                              </ul>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="collapsible-body">
+                      <div class="row">
+                        <div class="col s10 offset-s2 card grey lighten-5 lista-atividades__mais-detalhes">
+                          <div class="col s2">
+                            <ul class="right-align">
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe" ng-if="obj.detalhes.id">ID</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Processo</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Objeto</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Parte Contrária</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Instância Atual</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Tipo de Intimação</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Data de Intimação</li>
+                            </ul>
+                          </div>
+                          <div class="col s10">
+                            <ul>
+                              <li class="lista-atividades__conteudo-detalhe"><a href="">{{obj.detalhes.id}}</a></li>
+                              <li class="lista-atividades__conteudo-detalhe"><a href="">{{obj.detalhes.processo}}</a></li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.objeto}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.parteContraria}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.instanciaAtual}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.tipoIntimacao}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.dataIntimacao}}</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+            </ul>
+          </li>
+          
+          <li class="lista-atividades__dia">
+              <div class="center lista-atividades__cabecalho">
+                  <div class="lista-atividades__dia-semana">
+                    <span>{{objeto[1].diaDaSemana}}</span> 
+                    <a href="" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Novo">
+                      <i class="material-icons lista-atividades__icone-add">add</i>
+                    </a>
+                  </div>
+                  <div class="lista-atividades__data-agendamento">{{objeto[1].dataAgendamento}}</div>
+              </div>
+              <ul class="collapsible lista-atividades__lista-dia" data-collapsible="accordion">
+                  <li ng-repeat="obj in objeto[1].listas">
+                    <div class="collapsible-header">
+                        <div class="row valign-wrapper lista-atividades__linha-dia">
+                          <div class="col s1">
+                            <span class="lista-atividades__hora">{{obj.hora}}</span></div>
+                          <div class="col s1">
+                            <span ng-if="!obj.finalizada" class="white-text lista-atividades__badge"
+                            ng-class="{'red darken-2': objeto[1].diasRestantes == '1 dia'}">{{objeto[1].diasRestantes}}</span>
+                            <span ng-if="obj.finalizada"><i class="material-icons green-text lista-atividades__icone-finalizada">check</i></span>
+                          </div>
+                          <div class="col s6">
+                            <div class="lista-atividades__local">{{obj.local}}</div>                
+                            <div class="lista-atividades__descricao">{{obj.descricao}}</div>
+                          </div>
+                          <div class="col s3">
+                            <img class="lista-atividades__imagem-responsavel circle" ng-src="{{obj.responsavel.imagem}}" alt="">
+                            <span class="lista-atividades__nome-responsavel">{{obj.responsavel.nome}}</span>
+                          </div>
+                          <div class="col s1">
+                              <ul class="lista-atividades__lista-acoes">
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao" ng-click="$event.stopPropagation();">folder_open</i></li>
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao"
+                                  ng-class="{'lista-atividades__acao-desabilitada': obj.finalizada}" ng-click="$event.stopPropagation();">check</i></li>
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao" ng-click="$event.stopPropagation();"
+                                  ng-class="{'lista-atividades__acao-desabilitada': obj.desabilitaEditar}">edit</i></li>
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao" ng-click="$event.stopPropagation();"
+                                  ng-class="{'lista-atividades__acao-desabilitada': obj.desabilitaExcluir}">cancel</i></li>
+                              </ul>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="collapsible-body">
+                      <div class="row">
+                        <div class="col s10 offset-s2 card grey lighten-5 lista-atividades__mais-detalhes">
+                          <div class="col s2">
+                            <ul class="right-align">
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe" ng-if="obj.detalhes.id">ID</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Processo</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Objeto</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Parte Contrária</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Instância Atual</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Tipo de Intimação</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Data de Intimação</li>
+                            </ul>
+                          </div>
+                          <div class="col s10">
+                            <ul>
+                              <li class="lista-atividades__conteudo-detalhe"><a href="">{{obj.detalhes.id}}</a></li>
+                              <li class="lista-atividades__conteudo-detalhe"><a href="">{{obj.detalhes.processo}}</a></li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.objeto}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.parteContraria}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.instanciaAtual}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.tipoIntimacao}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.dataIntimacao}}</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+            </ul>
+          </li>
+
+          <li class="lista-atividades__dia">
+              <div class="center lista-atividades__cabecalho">
+                  <div class="lista-atividades__dia-semana">
+                    <span>{{objeto[2].diaDaSemana}}</span> 
+                    <a href="" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Novo">
+                      <i class="material-icons lista-atividades__icone-add">add</i>
+                    </a>
+                  </div>
+                  <div class="lista-atividades__data-agendamento">{{objeto[2].dataAgendamento}}</div>
+              </div>
+              <ul class="collapsible lista-atividades__lista-dia" data-collapsible="accordion">
+                  <li ng-repeat="obj in objeto[2].listas">
+                    <div class="collapsible-header">
+                        <div class="row valign-wrapper lista-atividades__linha-dia">
+                          <div class="col s1">
+                            <span class="lista-atividades__hora">{{obj.hora}}</span></div>
+                          <div class="col s1">
+                            <span ng-if="!obj.finalizada" class="white-text lista-atividades__badge"
+                            ng-class="{'orange darken-3': objeto[2].diasRestantes == '2 dias'}">{{objeto[2].diasRestantes}}</span>
+                            <span ng-if="obj.finalizada"><i class="material-icons green-text lista-atividades__icone-finalizada">check</i></span>
+                          </div>
+                          <div class="col s6">
+                            <div class="lista-atividades__local">{{obj.local}}</div>                
+                            <div class="lista-atividades__descricao">{{obj.descricao}}</div>
+                          </div>
+                          <div class="col s3">
+                            <img class="lista-atividades__imagem-responsavel circle" ng-src="{{obj.responsavel.imagem}}" alt="">
+                            <span class="lista-atividades__nome-responsavel">{{obj.responsavel.nome}}</span>
+                          </div>
+                          <div class="col s1">
+                              <ul class="lista-atividades__lista-acoes">
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao" ng-click="$event.stopPropagation();">folder_open</i></li>
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao"
+                                  ng-class="{'lista-atividades__acao-desabilitada': obj.finalizada}" ng-click="$event.stopPropagation();">check</i></li>
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao" ng-click="$event.stopPropagation();"
+                                  ng-class="{'lista-atividades__acao-desabilitada': obj.desabilitaEditar}">edit</i></li>
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao" ng-click="$event.stopPropagation();"
+                                  ng-class="{'lista-atividades__acao-desabilitada': obj.desabilitaExcluir}">cancel</i></li>
+                              </ul>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="collapsible-body">
+                      <div class="row">
+                        <div class="col s10 offset-s2 card grey lighten-5 lista-atividades__mais-detalhes">
+                          <div class="col s2">
+                            <ul class="right-align">
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe" ng-if="obj.detalhes.id">ID</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Processo</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Objeto</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Parte Contrária</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Instância Atual</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Tipo de Intimação</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Data de Intimação</li>
+                            </ul>
+                          </div>
+                          <div class="col s10">
+                            <ul>
+                              <li class="lista-atividades__conteudo-detalhe"><a href="">{{obj.detalhes.id}}</a></li>
+                              <li class="lista-atividades__conteudo-detalhe"><a href="">{{obj.detalhes.processo}}</a></li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.objeto}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.parteContraria}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.instanciaAtual}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.tipoIntimacao}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.dataIntimacao}}</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+            </ul>
+          </li>
+
+          <li class="lista-atividades__dia">
+              <div class="center lista-atividades__cabecalho">
+                  <div class="lista-atividades__dia-semana">
+                    <span>{{objeto[3].diaDaSemana}}</span> 
+                    <a href="" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Novo">
+                      <i class="material-icons lista-atividades__icone-add">add</i>
+                    </a>
+                  </div>
+                  <div class="lista-atividades__data-agendamento">{{objeto[3].dataAgendamento}}</div>
+              </div>
+              <ul class="collapsible lista-atividades__lista-dia" data-collapsible="accordion">
+                  <li ng-repeat="obj in objeto[3].listas">
+                    <div class="collapsible-header">
+                        <div class="row valign-wrapper lista-atividades__linha-dia">
+                          <div class="col s1">
+                            <span class="lista-atividades__hora">{{obj.hora}}</span></div>
+                          <div class="col s1">
+                            <span ng-if="!obj.finalizada" class="white-text lista-atividades__badge"
+                            ng-class="{'blue lighten-2': objeto[3].diasRestantes == '3 dias'}">{{objeto[3].diasRestantes}}</span>
+                            <span ng-if="obj.finalizada"><i class="material-icons green-text lista-atividades__icone-finalizada">check</i></span>
+                          </div>
+                          <div class="col s6">
+                            <div class="lista-atividades__local">{{obj.local}}</div>                
+                            <div class="lista-atividades__descricao">{{obj.descricao}}</div>
+                          </div>
+                          <div class="col s3">
+                            <img class="lista-atividades__imagem-responsavel circle" ng-src="{{obj.responsavel.imagem}}" alt="">
+                            <span class="lista-atividades__nome-responsavel">{{obj.responsavel.nome}}</span>
+                          </div>
+                          <div class="col s1">
+                              <ul class="lista-atividades__lista-acoes">
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao" ng-click="$event.stopPropagation();">folder_open</i></li>
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao"
+                                  ng-class="{'lista-atividades__acao-desabilitada': obj.finalizada}" ng-click="$event.stopPropagation();">check</i></li>
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao" ng-click="$event.stopPropagation();"
+                                  ng-class="{'lista-atividades__acao-desabilitada': obj.desabilitaEditar}">edit</i></li>
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao" ng-click="$event.stopPropagation();"
+                                  ng-class="{'lista-atividades__acao-desabilitada': obj.desabilitaExcluir}">cancel</i></li>
+                              </ul>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="collapsible-body">
+                      <div class="row">
+                        <div class="col s10 offset-s2 card grey lighten-5 lista-atividades__mais-detalhes">
+                          <div class="col s2">
+                            <ul class="right-align">
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe" ng-if="obj.detalhes.id">ID</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Processo</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Objeto</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Parte Contrária</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Instância Atual</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Tipo de Intimação</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Data de Intimação</li>
+                            </ul>
+                          </div>
+                          <div class="col s10">
+                            <ul>
+                              <li class="lista-atividades__conteudo-detalhe"><a href="">{{obj.detalhes.id}}</a></li>
+                              <li class="lista-atividades__conteudo-detalhe"><a href="">{{obj.detalhes.processo}}</a></li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.objeto}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.parteContraria}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.instanciaAtual}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.tipoIntimacao}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.dataIntimacao}}</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+            </ul>
+          </li>
+
+          <li class="lista-atividades__dia">
+              <div class="center lista-atividades__cabecalho">
+                  <div class="lista-atividades__dia-semana">
+                    <span>{{objeto[4].diaDaSemana}}</span> 
+                    <a href="" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Novo">
+                      <i class="material-icons lista-atividades__icone-add">add</i>
+                    </a>
+                  </div>
+                  <div class="lista-atividades__data-agendamento">{{objeto[4].dataAgendamento}}</div>
+              </div>
+              <ul class="collapsible lista-atividades__lista-dia" data-collapsible="accordion">
+                  <li ng-repeat="obj in objeto[4].listas">
+                    <div class="collapsible-header">
+                        <div class="row valign-wrapper lista-atividades__linha-dia">
+                          <div class="col s1">
+                            <span class="lista-atividades__hora">{{obj.hora}}</span></div>
+                          <div class="col s1">
+                            <span ng-if="!obj.finalizada" class="white-text lista-atividades__badge"
+                            ng-class="{'blue darken-2': objeto[4].diasRestantes == '1 mês'}">{{objeto[4].diasRestantes}}</span>
+                            <span ng-if="obj.finalizada"><i class="material-icons green-text lista-atividades__icone-finalizada">check</i></span>
+                          </div>
+                          <div class="col s6">
+                            <div class="lista-atividades__local">{{obj.local}}</div>                
+                            <div class="lista-atividades__descricao">{{obj.descricao}}</div>
+                          </div>
+                          <div class="col s3">
+                            <img class="lista-atividades__imagem-responsavel circle" ng-src="{{obj.responsavel.imagem}}" alt="">
+                            <span class="lista-atividades__nome-responsavel">{{obj.responsavel.nome}}</span>
+                          </div>
+                          <div class="col s1">
+                              <ul class="lista-atividades__lista-acoes">
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao" ng-click="$event.stopPropagation();">folder_open</i></li>
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao"
+                                  ng-class="{'lista-atividades__acao-desabilitada': obj.finalizada}" ng-click="$event.stopPropagation();">check</i></li>
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao" ng-click="$event.stopPropagation();"
+                                  ng-class="{'lista-atividades__acao-desabilitada': obj.desabilitaEditar}">edit</i></li>
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao" ng-click="$event.stopPropagation();"
+                                  ng-class="{'lista-atividades__acao-desabilitada': obj.desabilitaExcluir}">cancel</i></li>
+                              </ul>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="collapsible-body">
+                      <div class="row">
+                        <div class="col s10 offset-s2 card grey lighten-5 lista-atividades__mais-detalhes">
+                          <div class="col s2">
+                            <ul class="right-align">
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe" ng-if="obj.detalhes.id">ID</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Processo</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Objeto</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Parte Contrária</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Instância Atual</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Tipo de Intimação</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Data de Intimação</li>
+                            </ul>
+                          </div>
+                          <div class="col s10">
+                            <ul>
+                              <li class="lista-atividades__conteudo-detalhe"><a href="">{{obj.detalhes.id}}</a></li>
+                              <li class="lista-atividades__conteudo-detalhe"><a href="">{{obj.detalhes.processo}}</a></li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.objeto}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.parteContraria}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.instanciaAtual}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.tipoIntimacao}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.dataIntimacao}}</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+            </ul>
+          </li>
+
+          <li class="lista-atividades__dia">
+              <div class="center lista-atividades__cabecalho">
+                  <div class="lista-atividades__dia-semana">
+                    <span>{{objeto[5].diaDaSemana}}</span> 
+                    <a href="" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Novo">
+                      <i class="material-icons lista-atividades__icone-add">add</i>
+                    </a>
+                  </div>
+                  <div class="lista-atividades__data-agendamento">{{objeto[5].dataAgendamento}}</div>
+              </div>
+              <ul class="collapsible lista-atividades__lista-dia" data-collapsible="accordion">
+                  <li ng-repeat="obj in objeto[5].listas">
+                    <div class="collapsible-header">
+                        <div class="row valign-wrapper lista-atividades__linha-dia">
+                          <div class="col s1">
+                            <span class="lista-atividades__hora">{{obj.hora}}</span></div>
+                          <div class="col s1">
+                            <span ng-if="!obj.finalizada" class="white-text lista-atividades__badge"
+                            ng-class="{'blue darken-4': objeto[5].diasRestantes == '4 meses'}">{{objeto[5].diasRestantes}}</span>
+                            <span ng-if="obj.finalizada"><i class="material-icons green-text lista-atividades__icone-finalizada">check</i></span>
+                          </div>
+                          <div class="col s6">
+                            <div class="lista-atividades__local">{{obj.local}}</div>                
+                            <div class="lista-atividades__descricao">{{obj.descricao}}</div>
+                          </div>
+                          <div class="col s3">
+                            <img class="lista-atividades__imagem-responsavel circle" ng-src="{{obj.responsavel.imagem}}" alt="">
+                            <span class="lista-atividades__nome-responsavel">{{obj.responsavel.nome}}</span>
+                          </div>
+                          <div class="col s1">
+                              <ul class="lista-atividades__lista-acoes">
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao" ng-click="$event.stopPropagation();">folder_open</i></li>
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao"
+                                  ng-class="{'lista-atividades__acao-desabilitada': obj.finalizada}" ng-click="$event.stopPropagation();">check</i></li>
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao" ng-click="$event.stopPropagation();"
+                                  ng-class="{'lista-atividades__acao-desabilitada': obj.desabilitaEditar}">edit</i></li>
+                                <li><i class="large material-icons grey-text lista-atividades__icone-acao" ng-click="$event.stopPropagation();"
+                                  ng-class="{'lista-atividades__acao-desabilitada': obj.desabilitaExcluir}">cancel</i></li>
+                              </ul>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="collapsible-body">
+                      <div class="row">
+                        <div class="col s10 offset-s2 card grey lighten-5 lista-atividades__mais-detalhes">
+                          <div class="col s2">
+                            <ul class="right-align">
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe" ng-if="obj.detalhes.id">ID</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Processo</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Objeto</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Parte Contrária</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Instância Atual</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Tipo de Intimação</li>
+                              <li class="blue-grey-text lista-atividades__titulo-detalhe">Data de Intimação</li>
+                            </ul>
+                          </div>
+                          <div class="col s10">
+                            <ul>
+                              <li class="lista-atividades__conteudo-detalhe"><a href="">{{obj.detalhes.id}}</a></li>
+                              <li class="lista-atividades__conteudo-detalhe"><a href="">{{obj.detalhes.processo}}</a></li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.objeto}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.parteContraria}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.instanciaAtual}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.tipoIntimacao}}</li>
+                              <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.dataIntimacao}}</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+            </ul>
+          </li>
+          
+      </ul>
+      
+
+      <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+          <!-- Compiled and minified JavaScript -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+      <!-- Angular Material requires Angular.js Libraries -->
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+      <script src="js/app.js"></script>
+
+
+      </body>
+      
+
+  </html>
