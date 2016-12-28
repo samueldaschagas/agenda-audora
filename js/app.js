@@ -4,11 +4,11 @@
    angular
     .module('agendaAudora', [])
       .controller('ControllerPrincipal', function DemoCtrl($scope) {
-        $scope.objeto = [{
+        $scope.listaDias = [{
           'diaDaSemana': 'Hoje',
           'dataAgendamento': '20 de abril de 2015',
           'diasRestantes': 'Hoje',
-          'listas': [{
+          'listaAtividades': [{
               'hora': '12:00',
               'local': 'Santa Casa de Miséricordia de Maceió',
               'descricao': 'Requerimento de Baixa Complexidade',
@@ -91,7 +91,7 @@
           'diaDaSemana': 'Terça',
           'dataAgendamento': '21 de abril de 2015',
           'diasRestantes': '1 dia',
-          'listas': [
+          'listaAtividades': [
             {
               'hora': '13:30',
               'local': 'Atlântica Serviços e Transportes Ltda.',
@@ -154,7 +154,7 @@
           'diaDaSemana': 'Quarta',
           'dataAgendamento': '22 de abril de 2015',
           'diasRestantes': '2 dias',
-          'listas': [
+          'listaAtividades': [
             {
               'hora': '13:30',
               'local': 'Atlântica Serviços e Transportes Ltda.',
@@ -274,7 +274,7 @@
           'diaDaSemana': 'Quinta',
           'dataAgendamento': '24 de abril de 2015',
           'diasRestantes': '3 dias',
-          'listas': [{
+          'listaAtividades': [{
               'hora': '13:30',
               'local': 'Atlântica Serviços e Transportes Ltda.',
               'descricao': 'Apelação',
@@ -336,7 +336,7 @@
           'diaDaSemana': 'Terça',
           'dataAgendamento': '21 de maio de 2015',
           'diasRestantes': '1 mês',
-          'listas': [{
+          'listaAtividades': [{
               'hora': '13:30',
               'local': 'Atlântica Serviços e Transportes Ltda.',
               'descricao': 'Apelação',
@@ -398,7 +398,7 @@
           'diaDaSemana': 'Quinta',
           'dataAgendamento': '27 de agosto de 2015',
           'diasRestantes': '4 meses',
-          'listas': [{
+          'listaAtividades': [{
               'hora': '13:30',
               'local': 'Atlântica Serviços e Transportes Ltda.',
               'descricao': 'Apelação',
