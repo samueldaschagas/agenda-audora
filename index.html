@@ -2,8 +2,10 @@
   <html>
     <head>
       <title>Agenda Audora</title>
+
       <!--Import Google Icon Font-->
       <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
       <!-- Compiled and minified CSS -->
       <link rel="stylesheet" href="css/style.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
@@ -13,7 +15,7 @@
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     </head>
 
-    <body ng-app="agendaAudora" slim-scroll>
+    <body ng-app="agendaAudora">
     
       <div class="navbar-fixed">
           <nav class="navbar-principal">
@@ -60,7 +62,7 @@
                 </ul>
 
                 <!-- Dropdown Structure -->
-                <ul id='dropdown2' class='dropdown-content dropdown-content-categories'>
+                <ul id='dropdown2' class='dropdown-content navbar-principal__dropdown-categorias'>
                   <li><a class="grey-text text-darken-1" href="#!">Meu Departamento</a></li>
                   <li><a class="grey-text text-darken-1" href="#!">Meus Agendamentos</a></li>
                   <li><a class="grey-text text-darken-1" href="#!">Como Responsável</a></li>
@@ -133,8 +135,8 @@
                           </div>
                           <div class="col s10">
                             <ul>
-                              <li class="lista-atividades__conteudo-detalhe"><a href="">{{obj.detalhes.id}}</a></li>
-                              <li class="lista-atividades__conteudo-detalhe"><a href="">{{obj.detalhes.processo}}</a></li>
+                              <li class="lista-atividades__conteudo-detalhe"><a class="lista-atividades__link-conteudo-detalhe" href="">{{obj.detalhes.id}}</a></li>
+                              <li class="lista-atividades__conteudo-detalhe"><a class="lista-atividades__link-conteudo-detalhe" href="">{{obj.detalhes.processo}}</a></li>
                               <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.objeto}}</li>
                               <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.parteContraria}}</li>
                               <li class="lista-atividades__conteudo-detalhe">{{obj.detalhes.instanciaAtual}}</li>

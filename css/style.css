@@ -1,15 +1,17 @@
+/* NAVBAR */
 .navbar-principal {
 	background-color: #0088cc !important;
 }
 
-.navbar-principal .navbar-principal__icone {
-	font-size: 31px;
+.navbar-principal__icone {
+	font-size: 31px !important;
 }
 
-.dropdown-content-categories {
+.navbar-principal__dropdown-categorias {
     width: 200px !important;
 }
 
+/* LISTA DE ATIVIDADE*/
 .lista-atividades__dia {
 	padding-top: 30px;
 }
@@ -124,14 +126,16 @@
 	line-height: 22px;
 }
 
-.lista-atividades__conteudo-detalhe a {
+.lista-atividades__link-conteudo-detalhe {
 	color: #4fc3f7;
 }
 
-.lista-atividades .collapsible {
-	margin: 10px;
+.lista-atividades__lista-dia {
+	margin: 10px !important;
 }
 
+
+/* Personalização accordion */
 .collapsible-header.active {
 	border-bottom: none;
 }
